@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
     socket.join(roomId);
     socket.data.roomId = roomId;
 
-    const roomLink = `${process.env.BASE_URL || 'http://localhost:' + PORT}/?room=${roomId}`;
+    const roomLink = `${process.env.BASE_URL || 'https://tictactoeonline-oow9.onrender.com/:' + PORT}/?room=${roomId}`;
     socket.emit('roomCreated', roomLink);
   });
 
