@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe Multiplayer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">⚡ Tic Tac Toe</h1>
+
+    <div id="controls" class="controls">
+      <button id="createRoom" class="btn glow">Create Game Room</button>
+    </div>
+
+    <div id="status" class="status">Welcome! Create a game to get started.</div>
+
+    <div id="linkBox" class="linkBox hidden">
+      <p>Share this link with your friend:</p>
+      <div class="linkWrap">
+        <input id="roomLink" readonly />
+        <button id="copyLink" class="btn small">Copy</button>
+      </div>
+    </div>
+
+    <div id="board" class="board"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

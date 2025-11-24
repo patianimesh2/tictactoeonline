@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tic Tac Toe — Play</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+<h1>Multiplayer Tic Tac Toe</h1>
+
+
+<div id="info">
+<div id="players"></div>
+<div id="status">Connecting...</div>
+</div>
+
+
+<div id="board" class="board"></div>
+
+
+<div class="controls">
+<input id="name" placeholder="Your name (optional)" />
+<button id="join">Join Room</button>
+</div>
+
+
+<div id="overlay" class="overlay hidden">
+<div id="overlayText"></div>
+<button id="playAgain" class="hidden">Play again</button>
+</div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+</body>
+</html>

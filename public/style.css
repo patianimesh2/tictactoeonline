@@ -1,0 +1,140 @@
+/* ——— Base Layout ——— */
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at center, #0d1117, #000);
+  color: #f0f0f0;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+
+/* ——— Title ——— */
+.title {
+  font-size: 2.5em;
+  font-weight: 600;
+  background: linear-gradient(90deg, #00e0ff, #00ff9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+}
+
+/* ——— Buttons ——— */
+.btn {
+  background: linear-gradient(90deg, #00e0ff, #00ff9d);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 25px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px #00e0ff;
+}
+
+.btn.small {
+  padding: 6px 15px;
+  font-size: 0.9em;
+}
+
+.glow {
+  box-shadow: 0 0 10px #00ffbb;
+}
+
+/* ——— Status ——— */
+.status {
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 15px;
+  font-size: 1em;
+  color: #a8ffec;
+}
+
+/* ——— Link Box ——— */
+.linkBox {
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 15px;
+  width: 100%;
+}
+
+.linkWrap {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.linkWrap input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #00ffbb;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ——— Game Board ——— */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 12px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #00ffbb50;
+  border-radius: 12px;
+  color: #00ffbb;
+  font-size: 2.2em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cell:hover {
+  background: rgba(0, 255, 187, 0.1);
+  transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+  .board {
+    grid-template-columns: repeat(3, 80px);
+    gap: 8px;
+  }
+
+  .cell {
+    width: 80px;
+    height: 80px;
+    font-size: 1.8em;
+  }
+}
