@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 
+// Serve static frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
 const rooms = {};
@@ -19,6 +20,7 @@ io.on('connection', (socket) => {
   // Create room
   socket.on('createRoom', () => {
     const roomId = uuidv4();
+
     rooms[roomId] = {
       sockets: [socket.id],
       players: {
@@ -31,29 +33,38 @@ io.on('connection', (socket) => {
     socket.join(roomId);
     socket.data.roomId = roomId;
 
-    const roomLink = `${process.env.BASE_URL || 'https://tictactoeonline-oow9.onrender.com/:' + PORT}/?room=${roomId}`;
+    // FIXED URL LOGIC 🔥
+    const baseURL =
+      process.env.BASE_URL || `http://localhost:${PORT}`;
+    const roomLink = `${baseURL}/?room=${roomId}`;
+
     socket.emit('roomCreated', roomLink);
   });
 
-  // Join room
+  // Join room by link
   socket.on('joinRoomByLink', (roomId) => {
     const room = rooms[roomId];
     if (!room) return socket.emit('errorMsg', 'Room not found');
-    if (room.sockets.length >= 2) return socket.emit('errorMsg', 'Room full');
+    if (room.sockets.length >= 2)
+      return socket.emit('errorMsg', 'Room full');
 
     room.sockets.push(socket.id);
     room.players[socket.id] = { mark: 'O' };
     socket.join(roomId);
     socket.data.roomId = roomId;
 
-    io.to(roomId).emit('startGame', { board: room.board, turn: room.turn });
+    io.to(roomId).emit('startGame', {
+      board: room.board,
+      turn: room.turn
+    });
   });
 
-  // Handle moves
+  // Handle move
   socket.on('makeMove', ({ index }) => {
     const roomId = socket.data.roomId;
     const room = rooms[roomId];
     if (!room) return;
+
     const player = room.players[socket.id];
     if (!player) return;
 
@@ -67,31 +78,45 @@ io.on('connection', (socket) => {
 
     const winner = checkWinner(room.board);
     if (winner) {
-      io.to(roomId).emit('gameOver', { winner, board: room.board });
+      io.to(roomId).emit('gameOver', {
+        winner,
+        board: room.board
+      });
+
       room.board = Array(9).fill(null);
       room.turn = 'X';
       return;
     }
 
     if (room.board.every(cell => cell !== null)) {
-      io.to(roomId).emit('gameOver', { winner: null, board: room.board });
+      io.to(roomId).emit('gameOver', {
+        winner: null,
+        board: room.board
+      });
+
       room.board = Array(9).fill(null);
       room.turn = 'X';
       return;
     }
 
     room.turn = room.turn === 'X' ? 'O' : 'X';
-    io.to(roomId).emit('moveMade', { board: room.board, turn: room.turn });
+    io.to(roomId).emit('moveMade', {
+      board: room.board,
+      turn: room.turn
+    });
   });
 
+  // Disconnect logic
   socket.on('disconnect', () => {
     const roomId = socket.data.roomId;
     if (!roomId) return;
+
     const room = rooms[roomId];
     if (!room) return;
 
     room.sockets = room.sockets.filter(id => id !== socket.id);
     delete room.players[socket.id];
+
     io.to(roomId).emit('playerLeft');
 
     if (room.sockets.length === 0) delete rooms[roomId];
@@ -104,7 +129,7 @@ function checkWinner(b) {
     [0,3,6],[1,4,7],[2,5,8],
     [0,4,8],[2,4,6]
   ];
-  for (let [a,b1,c] of lines) {
+  for (let [a, b1, c] of lines) {
     if (b[a] && b[a] === b[b1] && b[a] === b[c]) return b[a];
   }
   return null;
